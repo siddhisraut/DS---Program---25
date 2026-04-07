@@ -1,0 +1,117 @@
+#include <iostream>
+using namespace std;
+
+struct Node {
+    int data;
+    Node* next;
+};
+
+class Queue {
+private:
+    Node* frontNode;  
+    Node* rearNode;   
+
+public:
+    Queue() {
+        frontNode = NULL;
+        rearNode = NULL;
+    }
+
+    bool isEmpty() {
+        return frontNode == NULL;
+    }
+
+    void enqueue(int data) {
+        Node* newNode = new Node();
+        newNode->data = data;
+        newNode->next = NULL;
+
+        if (rearNode == NULL) { 
+            frontNode = rearNode = newNode;
+        } else {
+            rearNode->next = newNode;
+            rearNode = newNode;
+        }
+        cout << data << " enqueued into queue.\n";
+    }
+
+    int dequeue() {
+        if (isEmpty()) {
+            cout << "Queue Underflow\n";
+            return -1;
+        }
+        Node* temp = frontNode;
+        int dequeuedData = temp->data;
+        frontNode = frontNode->next;
+        if (frontNode == NULL) 
+            rearNode = NULL;
+        delete temp;
+        return dequeuedData;
+    }
+
+    int front() {
+        if (isEmpty()) {
+            cout << "Queue is empty\n";
+            return -1;
+        }
+        return frontNode->data;
+    }
+
+    void display() {
+        if (isEmpty()) {
+            cout << "Queue is empty\n";
+            return;
+        }
+        Node* temp = frontNode;
+        cout << "Queue (front to rear): ";
+        while (temp != NULL) {
+            cout << temp->data << " -> ";
+            temp = temp->next;
+        }
+        cout << "NULL\n";
+    }
+};
+
+int main() {
+    Queue q;
+    int choice, value;
+
+    do {
+        cout << "\n--- Queue Menu ---\n";
+        cout << "1. Enqueue\n";
+        cout << "2. Dequeue\n";
+        cout << "3. Front Element\n";
+        cout << "4. Display Queue\n";
+        cout << "5. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch(choice) {
+            case 1:
+                cout << "Enter value to enqueue: ";
+                cin >> value;
+                q.enqueue(value);
+                break;
+            case 2:
+                value = q.dequeue();
+                if (value != -1)
+                    cout << "Dequeued: " << value << endl;
+                break;
+            case 3:
+                value = q.front();
+                if (value != -1)
+                    cout << "Front element: " << value << endl;
+                break;
+            case 4:
+                q.display();
+                break;
+            case 5:
+                cout << "Exiting program.\n";
+                break;
+            default:
+                cout << "Invalid choice! Try again.\n";
+        }
+    } while (choice != 5);
+
+    return 0;
+}

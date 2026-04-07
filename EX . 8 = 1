@@ -1,0 +1,105 @@
+#include <iostream>
+using namespace std;
+
+struct Node {
+    int data;
+    Node* next;
+};
+
+class Stack {
+private:
+    Node* top;
+
+public:
+    Stack() { top = NULL; } 
+
+    bool isEmpty() {
+        return top == NULL;   
+    }
+
+    void push(int data) {
+        Node* newNode = new Node();
+        newNode->data = data;
+        newNode->next = top;
+        top = newNode;
+        cout << data << " pushed onto stack.\n";
+    }
+
+    int pop() {
+        if (isEmpty()) {
+            cout << "Stack Underflow\n";
+            return -1;
+        }
+        Node* temp = top;
+        int poppedData = temp->data;
+        top = top->next;
+        delete temp;
+        return poppedData;
+    }
+
+    int peek() {
+        if (isEmpty()) {
+            cout << "Stack is empty\n";
+            return -1;
+        }
+        return top->data;
+    }
+
+    void display() {
+        if (isEmpty()) {
+            cout << "Stack is empty\n";
+            return;
+        }
+        Node* temp = top;
+        cout << "Stack (top to bottom): ";
+        while (temp != NULL) {  
+            cout << temp->data << " -> ";
+            temp = temp->next;
+        }
+        cout << "NULL\n";
+    }
+};
+
+int main() {
+    Stack s;
+    int choice, value;
+
+    do {
+        cout << "\n--- Stack Menu ---\n";
+        cout << "1. Push\n";
+        cout << "2. Pop\n";
+        cout << "3. Peek (Top element)\n";
+        cout << "4. Display Stack\n";
+        cout << "5. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch(choice) {
+            case 1:
+                cout << "Enter value to push: ";
+                cin >> value;
+                s.push(value);
+                break;
+            case 2:
+                value = s.pop();
+                if (value != -1)
+                    cout << "Popped: " << value << endl;
+                break;
+            case 3:
+                value = s.peek();
+                if (value != -1)
+                    cout << "Top element: " << value << endl;
+                break;
+            case 4:
+                s.display();
+                break;
+            case 5:
+                cout << "Exiting program.\n";
+                break;
+            default:
+                cout << "Invalid choice! Try again.\n";
+        }
+    } while (choice != 5);
+
+    return 0;
+}

@@ -1,0 +1,78 @@
+#include <iostream>
+using namespace std;
+struct Node {
+    int data;
+    Node* next;
+};
+Node* front = NULL;
+Node* rear = NULL;
+void enqueue(int value) {
+    Node* newNode = new Node();
+    newNode->data = value;
+    newNode->next = NULL;
+    
+    if (front == NULL) {
+        front = rear = newNode;
+    } else {
+        rear->next = newNode;
+        rear = newNode;
+    }
+    cout << "Inserted successfully\n";
+}py0 
+void dequeue() {
+    if (front == NULL) {
+        cout << "Queue Underflow\n";
+    } else {
+        Node* temp = front;
+        front = front->next;
+        delete temp;
+        if (front == NULL) {
+            rear = NULL;
+        }
+        cout << "Deleted successfully\n";
+    }
+}
+void display() {
+    if (front == NULL) {
+        cout << "Queue is empty\n";
+        return;
+    }
+    Node* temp = front;
+    cout << "Queue elements: ";
+    while (temp != NULL) {
+        cout << temp->data << " ";
+        temp = temp->next;
+    }
+    cout << endl;
+}
+int main() {
+    int choice, value;
+   do {
+        cout << "\n----- Queue Menu -----\n";
+        cout << "1. Enqueue\n";
+        cout << "2. Dequeue\n";
+        cout << "3. Display\n";
+        cout << "4. Exit\n";
+        cout << "Enter choice: ";
+        cin >> choice;
+        switch (choice) {
+            case 1:
+                cout << "Enter value: ";
+                cin >> value;
+                enqueue(value);
+                break;
+            case 2:
+                dequeue();
+                break;
+            case 3:
+                display();
+                break;
+            case 4:
+                cout << "Exiting...\n";
+                break;
+            default:
+                cout << "Invalid choice\n";
+        }
+    } while (choice != 4);
+    return 0;
+}
